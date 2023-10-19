@@ -70,6 +70,25 @@ export function ModelConfigList(props: {
         ></InputRange>
       </ListItem>
       <ListItem
+        title={Locale.Settings.Confidence.Title}
+        subTitle={Locale.Settings.Confidence.SubTitle}
+      >
+        <InputRange
+          value={(props.modelConfig.confidence ?? 1).toFixed(2)}
+          min="0"
+          max="1"
+          step="0.01"
+          onChange={(e) => {
+            props.updateConfig(
+              (config) =>
+                (config.confidence = ModalConfigValidator.confidence(
+                  e.currentTarget.valueAsNumber,
+                )),
+            );
+          }}
+        ></InputRange>
+      </ListItem>
+      <ListItem
         title={Locale.Settings.MaxTokens.Title}
         subTitle={Locale.Settings.MaxTokens.SubTitle}
       >

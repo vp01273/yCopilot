@@ -15,6 +15,7 @@ import Locale from "../locales";
 import { createRoot } from "react-dom/client";
 import React, { HTMLProps, useEffect, useState } from "react";
 import { IconButton } from "./button";
+import { Quote } from "@/app/store";
 
 export function Popover(props: {
   children: JSX.Element;
@@ -365,6 +366,39 @@ function PromptInput(props: {
   );
 }
 
+export function ShowQuoteDetail(props: { quotes: Quote[] }) {
+  const tableRows = props.quotes.map((quote) => (
+    <tr key="引文">
+      <td style={{ width: "20%", textAlign: "center" }}>
+        <a href="" target="_blank" rel="noopener noreferrer">
+          {quote.semantic_identifier}
+        </a>
+      </td>
+      <td style={{ textAlign: "center" }}>
+        {quote.match_highlights.map((highlight) => (
+          <p key="高亮">{highlight}</p>
+        ))}
+      </td>
+      <td style={{ width: "10%", textAlign: "center" }}>
+        {quote.score.toFixed(3)}
+      </td>
+    </tr>
+  ));
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th style={{ width: "20%", textAlign: "center" }}>上下文文件</th>
+          <th>匹配文本段</th>
+          <th style={{ width: "10%", textAlign: "center" }}>相关度</th>
+        </tr>
+      </thead>
+      <tbody>{tableRows}</tbody>
+    </table>
+  );
+}
+
 export function showPrompt(content: any, value = "", rows = 3) {
   const div = document.createElement("div");
   div.className = "modal-mask";
@@ -415,6 +449,56 @@ export function showPrompt(content: any, value = "", rows = 3) {
           value={value}
           rows={rows}
         ></PromptInput>
+      </Modal>,
+    );
+  });
+}
+
+export function showQuotes(content: any, quotes: Quote[], rows = 3) {
+  const div = document.createElement("div");
+  div.className = "modal-mask";
+  document.body.appendChild(div);
+
+  const root = createRoot(div);
+  const closeModal = () => {
+    root.unmount();
+    div.remove();
+  };
+  if (quotes.length === 0) {
+    showToast("该回答没有引用");
+    closeModal();
+    return;
+  }
+  // 将quotes的所有属性拼接成字符串
+  let value = quotes
+    .map((quote) => {
+      return `${quote.semantic_identifier}：${quote.match_highlights[0]}`;
+    })
+    .join("\n");
+
+  return new Promise<string>((resolve) => {
+    let userInput = value;
+
+    root.render(
+      <Modal
+        title={content}
+        actions={[
+          <IconButton
+            key="confirm"
+            text={Locale.UI.Confirm}
+            type="primary"
+            onClick={() => {
+              closeModal();
+            }}
+            icon={<ConfirmIcon />}
+            bordered
+            shadow
+            tabIndex={0}
+          ></IconButton>,
+        ]}
+        onClose={closeModal}
+      >
+        <ShowQuoteDetail quotes={quotes}></ShowQuoteDetail>
       </Modal>,
     );
   });

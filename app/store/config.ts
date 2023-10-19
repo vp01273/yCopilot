@@ -1,7 +1,8 @@
-import { LLMModel } from "../client/api";
+import { LLMModel, YCopilotFilter } from "../client/api";
 import { isMacOS } from "../utils";
 import { getClientConfig } from "../config/client";
 import {
+  DEFAULT_FILTERS,
   DEFAULT_INPUT_TEMPLATE,
   DEFAULT_MODELS,
   DEFAULT_SIDEBAR_WIDTH,
@@ -44,6 +45,7 @@ export const DEFAULT_CONFIG = {
 
   customModels: "",
   models: DEFAULT_MODELS as any as LLMModel[],
+  filters: DEFAULT_FILTERS as any as YCopilotFilter[],
 
   modelConfig: {
     model: "gpt-3.5-turbo" as ModelType,
@@ -57,6 +59,8 @@ export const DEFAULT_CONFIG = {
     compressMessageLengthThreshold: 1000,
     enableInjectSystemPrompts: true,
     template: DEFAULT_INPUT_TEMPLATE,
+    confidence: 0.25,
+    filter: "",
   },
 };
 
@@ -70,7 +74,7 @@ export function limitNumber(
   max: number,
   defaultValue: number,
 ) {
-  if (isNaN(x)) {
+  if (typeof x !== "number" || isNaN(x)) {
     return defaultValue;
   }
 
@@ -94,6 +98,9 @@ export const ModalConfigValidator = {
     return limitNumber(x, 0, 1, 1);
   },
   top_p(x: number) {
+    return limitNumber(x, 0, 1, 1);
+  },
+  confidence(x: number) {
     return limitNumber(x, 0, 1, 1);
   },
 };
@@ -134,6 +141,9 @@ export const useAppConfig = createPersistStore(
         .filter((v) => !!v && v.length > 0)
         .map((m) => ({ name: m, available: true }));
       return get().models.concat(customModels);
+    },
+    allFilters() {
+      return get().models;
     },
   }),
   {

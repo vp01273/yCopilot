@@ -44,6 +44,7 @@ const en: LocaleType = {
       PinToastAction: "View",
       Delete: "Delete",
       Edit: "Edit",
+      Quote: "Quote",
     },
     Commands: {
       new: "Start a new chat",
@@ -290,6 +291,7 @@ const en: LocaleType = {
       SubTitle: "Add extra model options, separate by comma",
     },
     Model: "Model",
+    Filter: "filters",
     Temperature: {
       Title: "Temperature",
       SubTitle: "A larger value makes the more random output",
@@ -311,6 +313,11 @@ const en: LocaleType = {
       Title: "Frequency Penalty",
       SubTitle:
         "A larger value decreasing the likelihood to repeat the same line",
+    },
+    Confidence: {
+      Title: "Confidence",
+      SubTitle:
+        "the confidence of context used by the model when generating text",
     },
   },
   Store: {

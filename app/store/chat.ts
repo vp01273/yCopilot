@@ -17,12 +17,24 @@ import { estimateTokenLength } from "../utils/token";
 import { nanoid } from "nanoid";
 import { createPersistStore } from "../utils/store";
 
+export type Quote = {
+  document_id: string;
+  semantic_identifier: string;
+  link: string;
+  blurb: string;
+  source_type: string;
+  boost: number;
+  score: number;
+  match_highlights: string[];
+};
+
 export type ChatMessage = RequestMessage & {
   date: string;
   streaming?: boolean;
   isError?: boolean;
   id: string;
   model?: ModelType;
+  quotes?: Quote[];
 };
 
 export function createMessage(override: Partial<ChatMessage>): ChatMessage {
@@ -51,6 +63,9 @@ export interface ChatSession {
   lastUpdate: number;
   lastSummarizeIndex: number;
   clearContextIndex?: number;
+
+  YCopilot_session_id?: number;
+  YCopilot_session_id_bak?: number;
 
   mask: Mask;
 }
@@ -326,7 +341,7 @@ export const useChatStore = createPersistStore(
         // make request
         api.llm.chat({
           messages: sendMessages,
-          config: { ...modelConfig, stream: true },
+          config: { ...modelConfig, stream: false },
           onUpdate(message) {
             botMessage.streaming = true;
             if (message) {
@@ -336,12 +351,16 @@ export const useChatStore = createPersistStore(
               session.messages = session.messages.concat();
             });
           },
-          onFinish(message) {
+          onFinish(message, quotes, session_id) {
             botMessage.streaming = false;
             if (message) {
               botMessage.content = message;
+              botMessage.quotes = quotes;
               get().onNewMessage(botMessage);
             }
+            get().updateCurrentSession((session) => {
+              session.YCopilot_session_id = session_id;
+            });
             ChatControllerPool.remove(session.id, botMessage.id);
           },
           onError(error) {
@@ -512,19 +531,19 @@ export const useChatStore = createPersistStore(
               content: Locale.Store.Prompt.Topic,
             }),
           );
-          api.llm.chat({
-            messages: topicMessages,
-            config: {
-              model: getSummarizeModel(session.mask.modelConfig.model),
-            },
-            onFinish(message) {
-              get().updateCurrentSession(
-                (session) =>
-                  (session.topic =
-                    message.length > 0 ? trimTopic(message) : DEFAULT_TOPIC),
-              );
-            },
-          });
+          // api.llm.chat({
+          //     messages: topicMessages,
+          //     config: {
+          //         model: getSummarizeModel(session.mask.modelConfig.model),
+          //     },
+          //     onFinish(message) {
+          //         get().updateCurrentSession(
+          //             (session) =>
+          //                 (session.topic =
+          //                     message.length > 0 ? trimTopic(message) : DEFAULT_TOPIC),
+          //         );
+          //     },
+          // });
         }
 
         const modelConfig = session.mask.modelConfig;
@@ -557,35 +576,35 @@ export const useChatStore = createPersistStore(
           modelConfig.compressMessageLengthThreshold,
         );
 
-        if (
-          historyMsgLength > modelConfig.compressMessageLengthThreshold &&
-          modelConfig.sendMemory
-        ) {
-          api.llm.chat({
-            messages: toBeSummarizedMsgs.concat(
-              createMessage({
-                role: "system",
-                content: Locale.Store.Prompt.Summarize,
-                date: "",
-              }),
-            ),
-            config: {
-              ...modelConfig,
-              stream: true,
-              model: getSummarizeModel(session.mask.modelConfig.model),
-            },
-            onUpdate(message) {
-              session.memoryPrompt = message;
-            },
-            onFinish(message) {
-              console.log("[Memory] ", message);
-              session.lastSummarizeIndex = lastSummarizeIndex;
-            },
-            onError(err) {
-              console.error("[Summarize] ", err);
-            },
-          });
-        }
+        // if (
+        //     historyMsgLength > modelConfig.compressMessageLengthThreshold &&
+        //     modelConfig.sendMemory
+        // ) {
+        //     api.llm.chat({
+        //         messages: toBeSummarizedMsgs.concat(
+        //             createMessage({
+        //                 role: "system",
+        //                 content: Locale.Store.Prompt.Summarize,
+        //                 date: "",
+        //             }),
+        //         ),
+        //         config: {
+        //             ...modelConfig,
+        //             stream: true,
+        //             model: getSummarizeModel(session.mask.modelConfig.model),
+        //         },
+        //         onUpdate(message) {
+        //             session.memoryPrompt = message;
+        //         },
+        //         onFinish(message) {
+        //             console.log("[Memory] ", message);
+        //             session.lastSummarizeIndex = lastSummarizeIndex;
+        //         },
+        //         onError(err) {
+        //             console.error("[Summarize] ", err);
+        //         },
+        //     });
+        // }
       },
 
       updateStat(message: ChatMessage) {

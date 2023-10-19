@@ -39,7 +39,7 @@ export class ChatGPTApi implements LLMApi {
       openaiUrl = openaiUrl.slice(0, openaiUrl.length - 1);
     }
     if (!openaiUrl.startsWith("http") && !openaiUrl.startsWith(apiPath)) {
-      openaiUrl = "https://" + openaiUrl;
+      openaiUrl = "http://" + openaiUrl;
     }
     return [openaiUrl, path].join("/");
   }
@@ -70,6 +70,8 @@ export class ChatGPTApi implements LLMApi {
       presence_penalty: modelConfig.presence_penalty,
       frequency_penalty: modelConfig.frequency_penalty,
       top_p: modelConfig.top_p,
+      confidence: modelConfig.confidence,
+      session_id: useChatStore.getState().currentSession().YCopilot_session_id,
     };
 
     console.log("[Request] openai payload: ", requestPayload);
@@ -99,7 +101,7 @@ export class ChatGPTApi implements LLMApi {
 
         const finish = () => {
           if (!finished) {
-            options.onFinish(responseText);
+            options.onFinish(responseText, [], 0);
             finished = true;
           }
         };
@@ -178,14 +180,17 @@ export class ChatGPTApi implements LLMApi {
         clearTimeout(requestTimeoutId);
 
         const resJson = await res.json();
-        const message = this.extractMessage(resJson);
-        options.onFinish(message);
+        const message = resJson.answer ?? "";
+        const quotes = resJson.top_ranked_docs ?? [];
+        const session_id = resJson.session_id;
+        options.onFinish(message, quotes, session_id);
       }
     } catch (e) {
       console.log("[Request] failed to make a chat request", e);
       options.onError?.(e as Error);
     }
   }
+
   async usage() {
     const formatDate = (d: Date) =>
       `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d
@@ -278,4 +283,5 @@ export class ChatGPTApi implements LLMApi {
     }));
   }
 }
+
 export { OpenaiPath };

@@ -1,12 +1,5 @@
 import { useDebouncedCallback } from "use-debounce";
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useMemo,
-  useCallback,
-  Fragment,
-} from "react";
+import React, { useState, useRef, useEffect, useMemo, Fragment } from "react";
 
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
@@ -71,13 +64,13 @@ import {
   Selector,
   showConfirm,
   showPrompt,
+  showQuotes,
   showToast,
 } from "./ui-lib";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   CHAT_PAGE_SIZE,
   LAST_INPUT_KEY,
-  MAX_RENDER_MSG_COUNT,
   Path,
   REQUEST_TIMEOUT_MS,
   UNFINISHED_INPUT,
@@ -416,6 +409,7 @@ export function ChatActions(props: {
 
   // switch themes
   const theme = config.theme;
+
   function nextTheme() {
     const themes = [Theme.Auto, Theme.Light, Theme.Dark];
     const themeIndex = themes.indexOf(theme);
@@ -501,9 +495,12 @@ export function ChatActions(props: {
           chatStore.updateCurrentSession((session) => {
             if (session.clearContextIndex === session.messages.length) {
               session.clearContextIndex = undefined;
+              session.YCopilot_session_id = session.YCopilot_session_id_bak;
             } else {
               session.clearContextIndex = session.messages.length;
               session.memoryPrompt = ""; // will clear memory
+              session.YCopilot_session_id_bak = session.YCopilot_session_id;
+              session.YCopilot_session_id = undefined;
             }
           });
         }}
@@ -916,6 +913,7 @@ function _Chat() {
   const [msgRenderIndex, _setMsgRenderIndex] = useState(
     Math.max(0, renderMessages.length - CHAT_PAGE_SIZE),
   );
+
   function setMsgRenderIndex(newIndex: number) {
     newIndex = Math.min(renderMessages.length - CHAT_PAGE_SIZE, newIndex);
     newIndex = Math.max(0, newIndex);
@@ -1197,6 +1195,16 @@ function _Chat() {
                                 text={Locale.Chat.Actions.Copy}
                                 icon={<CopyIcon />}
                                 onClick={() => copyToClipboard(message.content)}
+                              />
+                              <ChatAction
+                                text={
+                                  message.quotes?.length +
+                                  Locale.Chat.Actions.Quote
+                                }
+                                icon={<BrainIcon />}
+                                onClick={() => {
+                                  showQuotes("Quotes", message.quotes!!, 10);
+                                }}
                               />
                             </>
                           )}

@@ -1,6 +1,6 @@
 import { getClientConfig } from "../config/client";
 import { ACCESS_CODE_PREFIX } from "../constant";
-import { ChatMessage, ModelType, useAccessStore } from "../store";
+import { ChatMessage, ModelType, Quote, useAccessStore } from "../store";
 import { ChatGPTApi } from "./platforms/openai";
 
 export const ROLES = ["system", "user", "assistant"] as const;
@@ -28,7 +28,7 @@ export interface ChatOptions {
   config: LLMConfig;
 
   onUpdate?: (message: string, chunk: string) => void;
-  onFinish: (message: string) => void;
+  onFinish: (message: string, quotes: Quote[], session_id: number) => void;
   onError?: (err: Error) => void;
   onController?: (controller: AbortController) => void;
 }
@@ -41,6 +41,11 @@ export interface LLMUsage {
 export interface LLMModel {
   name: string;
   available: boolean;
+}
+
+export interface YCopilotFilter {
+  name: string;
+  value: string;
 }
 
 export abstract class LLMApi {

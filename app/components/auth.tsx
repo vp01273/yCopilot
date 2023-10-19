@@ -16,7 +16,10 @@ export function AuthPage() {
 
   const goHome = () => navigate(Path.Home);
   const goChat = () => navigate(Path.Chat);
-  const resetAccessCode = () => { access.updateCode(""); access.updateToken(""); }; // Reset access code to empty string
+  const resetAccessCode = () => {
+    access.updateCode("");
+    access.updateToken("");
+  }; // Reset access code to empty string
 
   useEffect(() => {
     if (getClientConfig()?.isApp) {

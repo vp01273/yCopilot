@@ -8,7 +8,7 @@ export const FETCH_COMMIT_URL = `https://api.github.com/repos/${OWNER}/${REPO}/c
 export const FETCH_TAG_URL = `https://api.github.com/repos/${OWNER}/${REPO}/tags?per_page=1`;
 export const RUNTIME_CONFIG_DOM = "danger-runtime-config";
 
-export const DEFAULT_CORS_HOST = "https://ab.nextweb.fun";
+export const DEFAULT_CORS_HOST = "https://nb.nextweb.fun";
 export const DEFAULT_API_HOST = `${DEFAULT_CORS_HOST}/api/proxy`;
 
 export enum Path {
@@ -55,12 +55,12 @@ export const UNFINISHED_INPUT = (id: string) => "unfinished-input-" + id;
 
 export const STORAGE_KEY = "chatgpt-next-web";
 
-export const REQUEST_TIMEOUT_MS = 60000;
+export const REQUEST_TIMEOUT_MS = 120000;
 
 export const EXPORT_MESSAGE_CLASS_NAME = "export-markdown";
 
 export const OpenaiPath = {
-  ChatPath: "v1/chat/completions",
+  ChatPath: "",
   UsagePath: "dashboard/billing/usage",
   SubsPath: "dashboard/billing/subscription",
   ListModelPath: "v1/models",
@@ -119,6 +119,25 @@ export const DEFAULT_MODELS = [
   {
     name: "gpt-3.5-turbo-16k-0613",
     available: true,
+  },
+] as const;
+
+export const DEFAULT_FILTERS = [
+  {
+    name: "关闭",
+    value: "",
+  },
+  {
+    name: "本地文件",
+    value: "file",
+  },
+  {
+    name: "上海汽修——测试",
+    value: "smvic_demo",
+  },
+  {
+    name: "上海汽修——未分类",
+    value: "smvic_other",
   },
 ] as const;
 

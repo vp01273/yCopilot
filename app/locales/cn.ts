@@ -42,6 +42,7 @@ const cn = {
       PinToastAction: "查看",
       Delete: "删除",
       Edit: "编辑",
+      Quote: "引用",
     },
     Commands: {
       new: "新建聊天",
@@ -287,6 +288,7 @@ const cn = {
       SubTitle: "增加自定义模型可选项，使用英文逗号隔开",
     },
     Model: "模型 (model)",
+    Filter: "仅搜索(filter)",
     Temperature: {
       Title: "随机性 (temperature)",
       SubTitle: "值越大，回复越随机",
@@ -294,6 +296,10 @@ const cn = {
     TopP: {
       Title: "核采样 (top_p)",
       SubTitle: "与随机性类似，但不要和随机性一起更改",
+    },
+    Confidence: {
+      Title: "置信度 (confidence)",
+      SubTitle: "上下文相关度阈值",
     },
     MaxTokens: {
       Title: "单次回复限制 (max_tokens)",
