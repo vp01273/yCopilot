@@ -304,11 +304,11 @@ function ClearContextDivider() {
   return (
     <div
       className={styles["clear-context"]}
-      onClick={() =>
-        chatStore.updateCurrentSession(
-          (session) => (session.clearContextIndex = undefined),
-        )
-      }
+      // onClick={() =>
+      //   chatStore.updateCurrentSession(
+      //     (session) => (session.clearContextIndex = undefined),
+      //   )
+      // }
     >
       <div className={styles["clear-context-tips"]}>{Locale.Context.Clear}</div>
       <div className={styles["clear-context-revert-btn"]}>
@@ -878,27 +878,27 @@ function _Chat() {
       .concat(
         isLoading
           ? [
-            {
-              ...createMessage({
-                role: "assistant",
-                content: "……",
-              }),
-              preview: true,
-            },
-          ]
+              {
+                ...createMessage({
+                  role: "assistant",
+                  content: "……",
+                }),
+                preview: true,
+              },
+            ]
           : [],
       )
       .concat(
         userInput.length > 0 && config.sendPreviewBubble
           ? [
-            {
-              ...createMessage({
-                role: "user",
-                content: userInput,
-              }),
-              preview: true,
-            },
-          ]
+              {
+                ...createMessage({
+                  role: "user",
+                  content: userInput,
+                }),
+                preview: true,
+              },
+            ]
           : [],
       );
   }, [
@@ -992,7 +992,7 @@ function _Chat() {
         if (payload.key || payload.url) {
           showConfirm(
             Locale.URLCommand.Settings +
-            `\n${JSON.stringify(payload, null, 4)}`,
+              `\n${JSON.stringify(payload, null, 4)}`,
           ).then((res) => {
             if (!res) return;
             if (payload.key) {

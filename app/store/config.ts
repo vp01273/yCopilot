@@ -2,7 +2,6 @@ import { LLMModel, YCopilotFilter } from "../client/api";
 import { isMacOS } from "../utils";
 import { getClientConfig } from "../config/client";
 import {
-  DEFAULT_FILTERS,
   DEFAULT_INPUT_TEMPLATE,
   DEFAULT_MODELS,
   DEFAULT_SIDEBAR_WIDTH,
@@ -45,7 +44,6 @@ export const DEFAULT_CONFIG = {
 
   customModels: "",
   models: DEFAULT_MODELS as any as LLMModel[],
-  filters: DEFAULT_FILTERS as any as YCopilotFilter[],
 
   modelConfig: {
     model: "gpt-3.5-turbo" as ModelType,
@@ -59,8 +57,9 @@ export const DEFAULT_CONFIG = {
     compressMessageLengthThreshold: 1000,
     enableInjectSystemPrompts: true,
     template: DEFAULT_INPUT_TEMPLATE,
-    confidence: 0.25,  // 相关文档置信度
-    filter: [] as string[],  // tag过滤
+    confidence: 0.25, // 相关文档置信度
+    filter: [] as string[], // tag过滤
+    stream: false, // 是否开启stream模式
   },
 };
 
@@ -141,9 +140,6 @@ export const useAppConfig = createPersistStore(
         .filter((v) => !!v && v.length > 0)
         .map((m) => ({ name: m, available: true }));
       return get().models.concat(customModels);
-    },
-    allFilters() {
-      return get().filters;
     },
   }),
   {
