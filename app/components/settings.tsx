@@ -486,9 +486,8 @@ function SyncItems() {
           title={Locale.Settings.Sync.CloudState}
           subTitle={
             syncStore.lastProvider
-              ? `${new Date(syncStore.lastSyncTime).toLocaleString()} [${
-                  syncStore.lastProvider
-                }]`
+              ? `${new Date(syncStore.lastSyncTime).toLocaleString()} [${syncStore.lastProvider
+              }]`
               : Locale.Settings.Sync.NotSyncYet
           }
         >
@@ -676,8 +675,8 @@ export function Settings() {
               checkingUpdate
                 ? Locale.Settings.Update.IsChecking
                 : hasNewVersion
-                ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
-                : Locale.Settings.Update.IsLatest
+                  ? Locale.Settings.Update.FoundUpdate(remoteId ?? "ERROR")
+                  : Locale.Settings.Update.IsLatest
             }
           >
             {checkingUpdate ? (
@@ -797,7 +796,7 @@ export function Settings() {
           </ListItem>
         </List>
 
-        <SyncItems />
+        {/* <SyncItems /> */}
 
         <List>
           <ListItem
@@ -810,8 +809,8 @@ export function Settings() {
               onChange={(e) =>
                 updateConfig(
                   (config) =>
-                    (config.dontShowMaskSplashScreen =
-                      !e.currentTarget.checked),
+                  (config.dontShowMaskSplashScreen =
+                    !e.currentTarget.checked),
                 )
               }
             ></input>
@@ -885,7 +884,7 @@ export function Settings() {
             <></>
           )}
 
-          {!accessStore.hideUserApiKey ? (
+          {/* {!accessStore.hideUserApiKey ? (
             <>
               <ListItem
                 title={Locale.Settings.Endpoint.Title}
@@ -956,7 +955,7 @@ export function Settings() {
                 )
               }
             ></input>
-          </ListItem>
+          </ListItem> */}
         </List>
 
         <List>

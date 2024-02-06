@@ -3,7 +3,7 @@
   "private": false,
   "license": "mit",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 8082",
     "build": "cross-env BUILD_MODE=standalone next build",
     "start": "next start",
     "lint": "next lint",

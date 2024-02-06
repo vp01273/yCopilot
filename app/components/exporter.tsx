@@ -514,7 +514,7 @@ export function ImagePreviewer(props: {
           </div>
 
           <div>
-            <div className={styles["main-title"]}>Ymslx Copilot</div>
+            <div className={styles["main-title"]}>yCopilot</div>
             <div className={styles["sub-title"]}>
               github.com/Yidadaa/ChatGPT-Next-Web
             </div>

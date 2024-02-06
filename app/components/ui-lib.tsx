@@ -18,554 +18,550 @@ import { IconButton } from "./button";
 import { Quote } from "@/app/store";
 
 export function Popover(props: {
-  children: JSX.Element;
-  content: JSX.Element;
-  open?: boolean;
-  onClose?: () => void;
+    children: JSX.Element;
+    content: JSX.Element;
+    open?: boolean;
+    onClose?: () => void;
 }) {
-  return (
-    <div className={styles.popover}>
-      {props.children}
-      {props.open && (
-        <div className={styles["popover-content"]}>
-          <div className={styles["popover-mask"]} onClick={props.onClose}></div>
-          {props.content}
+    return (
+        <div className={styles.popover}>
+            {props.children}
+            {props.open && (
+                <div className={styles["popover-content"]}>
+                    <div className={styles["popover-mask"]} onClick={props.onClose}></div>
+                    {props.content}
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export function Card(props: { children: JSX.Element[]; className?: string }) {
-  return (
-    <div className={styles.card + " " + props.className}>{props.children}</div>
-  );
+    return (
+        <div className={styles.card + " " + props.className}>{props.children}</div>
+    );
 }
 
 export function ListItem(props: {
-  title: string;
-  subTitle?: string;
-  children?: JSX.Element | JSX.Element[];
-  icon?: JSX.Element;
-  className?: string;
-  onClick?: () => void;
+    title: string;
+    subTitle?: string;
+    children?: JSX.Element | JSX.Element[];
+    icon?: JSX.Element;
+    className?: string;
+    onClick?: () => void;
 }) {
-  return (
-    <div
-      className={styles["list-item"] + ` ${props.className || ""}`}
-      onClick={props.onClick}
-    >
-      <div className={styles["list-header"]}>
-        {props.icon && <div className={styles["list-icon"]}>{props.icon}</div>}
-        <div className={styles["list-item-title"]}>
-          <div>{props.title}</div>
-          {props.subTitle && (
-            <div className={styles["list-item-sub-title"]}>
-              {props.subTitle}
+    return (
+        <div
+            className={styles["list-item"] + ` ${props.className || ""}`}
+            onClick={props.onClick}
+        >
+            <div className={styles["list-header"]}>
+                {props.icon && <div className={styles["list-icon"]}>{props.icon}</div>}
+                <div className={styles["list-item-title"]}>
+                    <div>{props.title}</div>
+                    {props.subTitle && (
+                        <div className={styles["list-item-sub-title"]}>
+                            {props.subTitle}
+                        </div>
+                    )}
+                </div>
             </div>
-          )}
+            {props.children}
         </div>
-      </div>
-      {props.children}
-    </div>
-  );
+    );
 }
 
 export function List(props: {
-  children:
+    children:
     | Array<JSX.Element | null | undefined>
     | JSX.Element
     | null
     | undefined;
 }) {
-  return <div className={styles.list}>{props.children}</div>;
+    return <div className={styles.list}>{props.children}</div>;
 }
 
 export function Loading() {
-  return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <LoadingIcon />
-    </div>
-  );
+    return (
+        <div
+            style={{
+                height: "100vh",
+                width: "100vw",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            <LoadingIcon />
+        </div>
+    );
 }
 
 interface ModalProps {
-  title: string;
-  children?: any;
-  actions?: JSX.Element[];
-  defaultMax?: boolean;
-  onClose?: () => void;
+    title: string;
+    children?: any;
+    actions?: JSX.Element[];
+    defaultMax?: boolean;
+    onClose?: () => void;
 }
 export function Modal(props: ModalProps) {
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        props.onClose?.();
-      }
-    };
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                props.onClose?.();
+            }
+        };
 
-    window.addEventListener("keydown", onKeyDown);
+        window.addEventListener("keydown", onKeyDown);
 
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        return () => {
+            window.removeEventListener("keydown", onKeyDown);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  const [isMax, setMax] = useState(!!props.defaultMax);
+    const [isMax, setMax] = useState(!!props.defaultMax);
 
-  return (
-    <div
-      className={
-        styles["modal-container"] + ` ${isMax && styles["modal-container-max"]}`
-      }
-    >
-      <div className={styles["modal-header"]}>
-        <div className={styles["modal-title"]}>{props.title}</div>
+    return (
+        <div
+            className={
+                styles["modal-container"] + ` ${isMax && styles["modal-container-max"]}`
+            }
+        >
+            <div className={styles["modal-header"]}>
+                <div className={styles["modal-title"]}>{props.title}</div>
 
-        <div className={styles["modal-header-actions"]}>
-          <div
-            className={styles["modal-header-action"]}
-            onClick={() => setMax(!isMax)}
-          >
-            {isMax ? <MinIcon /> : <MaxIcon />}
-          </div>
-          <div
-            className={styles["modal-header-action"]}
-            onClick={props.onClose}
-          >
-            <CloseIcon />
-          </div>
-        </div>
-      </div>
-
-      <div className={styles["modal-content"]}>{props.children}</div>
-
-      <div className={styles["modal-footer"]}>
-        <div className={styles["modal-actions"]}>
-          {props.actions?.map((action, i) => (
-            <div key={i} className={styles["modal-action"]}>
-              {action}
+                <div className={styles["modal-header-actions"]}>
+                    <div
+                        className={styles["modal-header-action"]}
+                        onClick={() => setMax(!isMax)}
+                    >
+                        {isMax ? <MinIcon /> : <MaxIcon />}
+                    </div>
+                    <div
+                        className={styles["modal-header-action"]}
+                        onClick={props.onClose}
+                    >
+                        <CloseIcon />
+                    </div>
+                </div>
             </div>
-          ))}
+
+            <div className={styles["modal-content"]}>{props.children}</div>
+
+            <div className={styles["modal-footer"]}>
+                <div className={styles["modal-actions"]}>
+                    {props.actions?.map((action, i) => (
+                        <div key={i} className={styles["modal-action"]}>
+                            {action}
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export function showModal(props: ModalProps) {
-  const div = document.createElement("div");
-  div.className = "modal-mask";
-  document.body.appendChild(div);
+    const div = document.createElement("div");
+    div.className = "modal-mask";
+    document.body.appendChild(div);
 
-  const root = createRoot(div);
-  const closeModal = () => {
-    props.onClose?.();
-    root.unmount();
-    div.remove();
-  };
+    const root = createRoot(div);
+    const closeModal = () => {
+        props.onClose?.();
+        root.unmount();
+        div.remove();
+    };
 
-  div.onclick = (e) => {
-    if (e.target === div) {
-      closeModal();
-    }
-  };
+    div.onclick = (e) => {
+        if (e.target === div) {
+            closeModal();
+        }
+    };
 
-  root.render(<Modal {...props} onClose={closeModal}></Modal>);
+    root.render(<Modal {...props} onClose={closeModal}></Modal>);
 }
 
 export type ToastProps = {
-  content: string;
-  action?: {
-    text: string;
-    onClick: () => void;
-  };
-  onClose?: () => void;
+    content: string;
+    action?: {
+        text: string;
+        onClick: () => void;
+    };
+    onClose?: () => void;
 };
 
 export function Toast(props: ToastProps) {
-  return (
-    <div className={styles["toast-container"]}>
-      <div className={styles["toast-content"]}>
-        <span>{props.content}</span>
-        {props.action && (
-          <button
-            onClick={() => {
-              props.action?.onClick?.();
-              props.onClose?.();
-            }}
-            className={styles["toast-action"]}
-          >
-            {props.action.text}
-          </button>
-        )}
-      </div>
-    </div>
-  );
+    return (
+        <div className={styles["toast-container"]}>
+            <div className={styles["toast-content"]}>
+                <span>{props.content}</span>
+                {props.action && (
+                    <button
+                        onClick={() => {
+                            props.action?.onClick?.();
+                            props.onClose?.();
+                        }}
+                        className={styles["toast-action"]}
+                    >
+                        {props.action.text}
+                    </button>
+                )}
+            </div>
+        </div>
+    );
 }
 
 export function showToast(
-  content: string,
-  action?: ToastProps["action"],
-  delay = 3000,
+    content: string,
+    action?: ToastProps["action"],
+    delay = 3000,
 ) {
-  const div = document.createElement("div");
-  div.className = styles.show;
-  document.body.appendChild(div);
+    const div = document.createElement("div");
+    div.className = styles.show;
+    document.body.appendChild(div);
 
-  const root = createRoot(div);
-  const close = () => {
-    div.classList.add(styles.hide);
+    const root = createRoot(div);
+    const close = () => {
+        div.classList.add(styles.hide);
+
+        setTimeout(() => {
+            root.unmount();
+            div.remove();
+        }, 300);
+    };
 
     setTimeout(() => {
-      root.unmount();
-      div.remove();
-    }, 300);
-  };
+        close();
+    }, delay);
 
-  setTimeout(() => {
-    close();
-  }, delay);
-
-  root.render(<Toast content={content} action={action} onClose={close} />);
+    root.render(<Toast content={content} action={action} onClose={close} />);
 }
 
 export type InputProps = React.HTMLProps<HTMLTextAreaElement> & {
-  autoHeight?: boolean;
-  rows?: number;
+    autoHeight?: boolean;
+    rows?: number;
 };
 
 export function Input(props: InputProps) {
-  return (
-    <textarea
-      {...props}
-      className={`${styles["input"]} ${props.className}`}
-    ></textarea>
-  );
+    return (
+        <textarea
+            {...props}
+            className={`${styles["input"]} ${props.className}`}
+        ></textarea>
+    );
 }
 
 export function PasswordInput(props: HTMLProps<HTMLInputElement>) {
-  const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(false);
 
-  function changeVisibility() {
-    setVisible(!visible);
-  }
+    function changeVisibility() {
+        setVisible(!visible);
+    }
 
-  return (
-    <div className={"password-input-container"}>
-      <IconButton
-        icon={visible ? <EyeIcon /> : <EyeOffIcon />}
-        onClick={changeVisibility}
-        className={"password-eye"}
-      />
-      <input
-        {...props}
-        type={visible ? "text" : "password"}
-        className={"password-input"}
-      />
-    </div>
-  );
+    return (
+        <div className={"password-input-container"}>
+            <IconButton
+                icon={visible ? <EyeIcon /> : <EyeOffIcon />}
+                onClick={changeVisibility}
+                className={"password-eye"}
+            />
+            <input
+                {...props}
+                type={visible ? "text" : "password"}
+                className={"password-input"}
+            />
+        </div>
+    );
 }
 
 export function Select(
-  props: React.DetailedHTMLProps<
-    React.SelectHTMLAttributes<HTMLSelectElement>,
-    HTMLSelectElement
-  >,
+    props: React.DetailedHTMLProps<
+        React.SelectHTMLAttributes<HTMLSelectElement>,
+        HTMLSelectElement
+    >,
 ) {
-  const { className, children, ...otherProps } = props;
-  return (
-    <div className={`${styles["select-with-icon"]} ${className}`}>
-      <select className={styles["select-with-icon-select"]} {...otherProps}>
-        {children}
-      </select>
-      <DownIcon className={styles["select-with-icon-icon"]} />
-    </div>
-  );
+    const { className, children, ...otherProps } = props;
+    return (
+        <div className={`${styles["select-with-icon"]} ${className}`}>
+            <select className={styles["select-with-icon-select"]} {...otherProps}>
+                {children}
+            </select>
+            <DownIcon className={styles["select-with-icon-icon"]} />
+        </div>
+    );
 }
 
 export function showConfirm(content: any) {
-  const div = document.createElement("div");
-  div.className = "modal-mask";
-  document.body.appendChild(div);
+    const div = document.createElement("div");
+    div.className = "modal-mask";
+    document.body.appendChild(div);
 
-  const root = createRoot(div);
-  const closeModal = () => {
-    root.unmount();
-    div.remove();
-  };
+    const root = createRoot(div);
+    const closeModal = () => {
+        root.unmount();
+        div.remove();
+    };
 
-  return new Promise<boolean>((resolve) => {
-    root.render(
-      <Modal
-        title={Locale.UI.Confirm}
-        actions={[
-          <IconButton
-            key="cancel"
-            text={Locale.UI.Cancel}
-            onClick={() => {
-              resolve(false);
-              closeModal();
-            }}
-            icon={<CancelIcon />}
-            tabIndex={0}
-            bordered
-            shadow
-          ></IconButton>,
-          <IconButton
-            key="confirm"
-            text={Locale.UI.Confirm}
-            type="primary"
-            onClick={() => {
-              resolve(true);
-              closeModal();
-            }}
-            icon={<ConfirmIcon />}
-            tabIndex={0}
-            autoFocus
-            bordered
-            shadow
-          ></IconButton>,
-        ]}
-        onClose={closeModal}
-      >
-        {content}
-      </Modal>,
-    );
-  });
+    return new Promise<boolean>((resolve) => {
+        root.render(
+            <Modal
+                title={Locale.UI.Confirm}
+                actions={[
+                    <IconButton
+                        key="cancel"
+                        text={Locale.UI.Cancel}
+                        onClick={() => {
+                            resolve(false);
+                            closeModal();
+                        }}
+                        icon={<CancelIcon />}
+                        tabIndex={0}
+                        bordered
+                        shadow
+                    ></IconButton>,
+                    <IconButton
+                        key="confirm"
+                        text={Locale.UI.Confirm}
+                        type="primary"
+                        onClick={() => {
+                            resolve(true);
+                            closeModal();
+                        }}
+                        icon={<ConfirmIcon />}
+                        tabIndex={0}
+                        autoFocus
+                        bordered
+                        shadow
+                    ></IconButton>,
+                ]}
+                onClose={closeModal}
+            >
+                {content}
+            </Modal>,
+        );
+    });
 }
 
 function PromptInput(props: {
-  value: string;
-  onChange: (value: string) => void;
-  rows?: number;
+    value: string;
+    onChange: (value: string) => void;
+    rows?: number;
 }) {
-  const [input, setInput] = useState(props.value);
-  const onInput = (value: string) => {
-    props.onChange(value);
-    setInput(value);
-  };
+    const [input, setInput] = useState(props.value);
+    const onInput = (value: string) => {
+        props.onChange(value);
+        setInput(value);
+    };
 
-  return (
-    <textarea
-      className={styles["modal-input"]}
-      autoFocus
-      value={input}
-      onInput={(e) => onInput(e.currentTarget.value)}
-      rows={props.rows ?? 3}
-    ></textarea>
-  );
+    return (
+        <textarea
+            className={styles["modal-input"]}
+            autoFocus
+            value={input}
+            onInput={(e) => onInput(e.currentTarget.value)}
+            rows={props.rows ?? 3}
+        ></textarea>
+    );
 }
 
 export function ShowQuoteDetail(props: { quotes: Quote[] }) {
-  const tableRows = props.quotes.map((quote) => (
-    <tr key="引文">
-      <td style={{ width: "20%", textAlign: "center" }}>
-        <a href="" target="_blank" rel="noopener noreferrer">
-          {quote.semantic_identifier}
-        </a>
-      </td>
-      <td style={{ textAlign: "center" }}>
-        {quote.match_highlights.map((highlight) => (
-          <p key="高亮">{highlight}</p>
-        ))}
-      </td>
-      <td style={{ width: "10%", textAlign: "center" }}>
-        {quote.score.toFixed(3)}
-      </td>
-    </tr>
-  ));
-
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th style={{ width: "20%", textAlign: "center" }}>上下文文件</th>
-          <th>匹配文本段</th>
-          <th style={{ width: "10%", textAlign: "center" }}>相关度</th>
+    const tableRows = props.quotes.map((quote) => (
+        <tr key="quote">
+            <td style={{ width: "20%", textAlign: "center" }}>
+                <a href={quote.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    {quote.fileName}
+                </a>
+            </td>
+            <td style={{ textAlign: "center" }}>
+                {quote.highlight.map((highlight) => (
+                    <p key="hight_light">{highlight}</p>
+                ))}
+            </td>
+            <td style={{ width: "10%", textAlign: "center" }}>
+                {quote.score.toFixed(3)}
+            </td>
+            <td style={{ width: "10%", textAlign: "center" }}>
+                {quote.tags}
+            </td>
         </tr>
-      </thead>
-      <tbody>{tableRows}</tbody>
-    </table>
-  );
+    ));
+
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th style={{ width: "20%", textAlign: "center" }}>文件名</th>
+                    <th>匹配文本段</th>
+                    <th style={{ width: "10%", textAlign: "center" }}>相关度</th>
+                    <th style={{ width: "10%", textAlign: "center" }}>标签</th>
+                </tr>
+            </thead>
+            <tbody>{tableRows}</tbody>
+        </table>
+    );
 }
 
 export function showPrompt(content: any, value = "", rows = 3) {
-  const div = document.createElement("div");
-  div.className = "modal-mask";
-  document.body.appendChild(div);
+    const div = document.createElement("div");
+    div.className = "modal-mask";
+    document.body.appendChild(div);
 
-  const root = createRoot(div);
-  const closeModal = () => {
-    root.unmount();
-    div.remove();
-  };
+    const root = createRoot(div);
+    const closeModal = () => {
+        root.unmount();
+        div.remove();
+    };
 
-  return new Promise<string>((resolve) => {
-    let userInput = value;
+    return new Promise<string>((resolve) => {
+        let userInput = value;
 
-    root.render(
-      <Modal
-        title={content}
-        actions={[
-          <IconButton
-            key="cancel"
-            text={Locale.UI.Cancel}
-            onClick={() => {
-              closeModal();
-            }}
-            icon={<CancelIcon />}
-            bordered
-            shadow
-            tabIndex={0}
-          ></IconButton>,
-          <IconButton
-            key="confirm"
-            text={Locale.UI.Confirm}
-            type="primary"
-            onClick={() => {
-              resolve(userInput);
-              closeModal();
-            }}
-            icon={<ConfirmIcon />}
-            bordered
-            shadow
-            tabIndex={0}
-          ></IconButton>,
-        ]}
-        onClose={closeModal}
-      >
-        <PromptInput
-          onChange={(val) => (userInput = val)}
-          value={value}
-          rows={rows}
-        ></PromptInput>
-      </Modal>,
-    );
-  });
+        root.render(
+            <Modal
+                title={content}
+                actions={[
+                    <IconButton
+                        key="cancel"
+                        text={Locale.UI.Cancel}
+                        onClick={() => {
+                            closeModal();
+                        }}
+                        icon={<CancelIcon />}
+                        bordered
+                        shadow
+                        tabIndex={0}
+                    ></IconButton>,
+                    <IconButton
+                        key="confirm"
+                        text={Locale.UI.Confirm}
+                        type="primary"
+                        onClick={() => {
+                            resolve(userInput);
+                            closeModal();
+                        }}
+                        icon={<ConfirmIcon />}
+                        bordered
+                        shadow
+                        tabIndex={0}
+                    ></IconButton>,
+                ]}
+                onClose={closeModal}
+            >
+                <PromptInput
+                    onChange={(val) => (userInput = val)}
+                    value={value}
+                    rows={rows}
+                ></PromptInput>
+            </Modal>,
+        );
+    });
 }
 
 export function showQuotes(content: any, quotes: Quote[], rows = 3) {
-  const div = document.createElement("div");
-  div.className = "modal-mask";
-  document.body.appendChild(div);
+    if (quotes.length === 0) {
+        showToast("该回答没有引用");
+        return;
+    }
 
-  const root = createRoot(div);
-  const closeModal = () => {
-    root.unmount();
-    div.remove();
-  };
-  if (quotes.length === 0) {
-    showToast("该回答没有引用");
-    closeModal();
-    return;
-  }
-  // 将quotes的所有属性拼接成字符串
-  let value = quotes
-    .map((quote) => {
-      return `${quote.semantic_identifier}：${quote.match_highlights[0]}`;
-    })
-    .join("\n");
+    const div = document.createElement("div");
+    div.className = "modal-mask";
+    document.body.appendChild(div);
 
-  return new Promise<string>((resolve) => {
-    let userInput = value;
+    const root = createRoot(div);
+    const closeModal = () => {
+        root.unmount();
+        div.remove();
+    };
 
-    root.render(
-      <Modal
-        title={content}
-        actions={[
-          <IconButton
-            key="confirm"
-            text={Locale.UI.Confirm}
-            type="primary"
-            onClick={() => {
-              closeModal();
-            }}
-            icon={<ConfirmIcon />}
-            bordered
-            shadow
-            tabIndex={0}
-          ></IconButton>,
-        ]}
-        onClose={closeModal}
-      >
-        <ShowQuoteDetail quotes={quotes}></ShowQuoteDetail>
-      </Modal>,
-    );
-  });
+    return new Promise<string>((resolve) => {
+        root.render(
+            <Modal
+                title={content}
+                actions={[
+                    <IconButton
+                        key="confirm"
+                        text={Locale.UI.Confirm}
+                        type="primary"
+                        onClick={() => {
+                            closeModal();
+                        }}
+                        icon={<ConfirmIcon />}
+                        bordered
+                        shadow
+                        tabIndex={0}
+                    ></IconButton>,
+                ]}
+                onClose={closeModal}
+            >
+                <ShowQuoteDetail quotes={quotes}></ShowQuoteDetail>
+            </Modal>,
+        );
+    });
 }
 
 export function showImageModal(img: string) {
-  showModal({
-    title: Locale.Export.Image.Modal,
-    children: (
-      <div>
-        <img
-          src={img}
-          alt="preview"
-          style={{
-            maxWidth: "100%",
-          }}
-        ></img>
-      </div>
-    ),
-  });
+    showModal({
+        title: Locale.Export.Image.Modal,
+        children: (
+            <div>
+                <img
+                    src={img}
+                    alt="preview"
+                    style={{
+                        maxWidth: "100%",
+                    }}
+                ></img>
+            </div>
+        ),
+    });
 }
 
 export function Selector<T>(props: {
-  items: Array<{
-    title: string;
-    subTitle?: string;
-    value: T;
-  }>;
-  defaultSelectedValue?: T;
-  onSelection?: (selection: T[]) => void;
-  onClose?: () => void;
-  multiple?: boolean;
+    items: Array<{
+        title: string;
+        subTitle?: string;
+        value: T;
+    }>;
+    defaultSelectedValue?: T;
+    onSelection?: (selection: T[]) => void;
+    onClose?: () => void;
+    multiple?: boolean;
 }) {
-  return (
-    <div className={styles["selector"]} onClick={() => props.onClose?.()}>
-      <div className={styles["selector-content"]}>
-        <List>
-          {props.items.map((item, i) => {
-            const selected = props.defaultSelectedValue === item.value;
-            return (
-              <ListItem
-                className={styles["selector-item"]}
-                key={i}
-                title={item.title}
-                subTitle={item.subTitle}
-                onClick={() => {
-                  props.onSelection?.([item.value]);
-                  props.onClose?.();
-                }}
-              >
-                {selected ? (
-                  <div
-                    style={{
-                      height: 10,
-                      width: 10,
-                      backgroundColor: "var(--primary)",
-                      borderRadius: 10,
-                    }}
-                  ></div>
-                ) : (
-                  <></>
-                )}
-              </ListItem>
-            );
-          })}
-        </List>
-      </div>
-    </div>
-  );
+    return (
+        <div className={styles["selector"]} onClick={() => props.onClose?.()}>
+            <div className={styles["selector-content"]}>
+                <List>
+                    {props.items.map((item, i) => {
+                        const selected = props.defaultSelectedValue === item.value;
+                        return (
+                            <ListItem
+                                className={styles["selector-item"]}
+                                key={i}
+                                title={item.title}
+                                subTitle={item.subTitle}
+                                onClick={() => {
+                                    props.onSelection?.([item.value]);
+                                    props.onClose?.();
+                                }}
+                            >
+                                {selected ? (
+                                    <div
+                                        style={{
+                                            height: 10,
+                                            width: 10,
+                                            backgroundColor: "var(--primary)",
+                                            borderRadius: 10,
+                                        }}
+                                    ></div>
+                                ) : (
+                                    <></>
+                                )}
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            </div>
+        </div>
+    );
 }

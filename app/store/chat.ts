@@ -18,14 +18,13 @@ import { nanoid } from "nanoid";
 import { createPersistStore } from "../utils/store";
 
 export type Quote = {
-  document_id: string;
-  semantic_identifier: string;
-  link: string;
-  blurb: string;
-  source_type: string;
-  boost: number;
+  appId: string;
+  documentId: string;
+  fileName: string;
+  sourceUrl: string;
   score: number;
-  match_highlights: string[];
+  highlight: string[];
+  tags: string[];
 };
 
 export type ChatMessage = RequestMessage & {
@@ -64,8 +63,7 @@ export interface ChatSession {
   lastSummarizeIndex: number;
   clearContextIndex?: number;
 
-  YCopilot_session_id?: number;
-  YCopilot_session_id_bak?: number;
+  YCopilot_session_id?: string;
 
   mask: Mask;
 }
@@ -342,13 +340,15 @@ export const useChatStore = createPersistStore(
         api.llm.chat({
           messages: sendMessages,
           config: { ...modelConfig, stream: false },
-          onUpdate(message) {
+          onUpdate(message, _, quotes, session_id) {
             botMessage.streaming = true;
             if (message) {
               botMessage.content = message;
+              botMessage.quotes = quotes;
             }
             get().updateCurrentSession((session) => {
               session.messages = session.messages.concat();
+              session.YCopilot_session_id = session_id;
             });
           },
           onFinish(message, quotes, session_id) {
@@ -422,14 +422,14 @@ export const useChatStore = createPersistStore(
         const shouldInjectSystemPrompts = modelConfig.enableInjectSystemPrompts;
         const systemPrompts = shouldInjectSystemPrompts
           ? [
-              createMessage({
-                role: "system",
-                content: fillTemplateWith("", {
-                  ...modelConfig,
-                  template: DEFAULT_SYSTEM_TEMPLATE,
-                }),
+            createMessage({
+              role: "system",
+              content: fillTemplateWith("", {
+                ...modelConfig,
+                template: DEFAULT_SYSTEM_TEMPLATE,
               }),
-            ]
+            }),
+          ]
           : [];
         if (shouldInjectSystemPrompts) {
           console.log(

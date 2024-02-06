@@ -1,20 +1,7 @@
 import cn from "./cn";
 import en from "./en";
 import tw from "./tw";
-import id from "./id";
-import fr from "./fr";
-import es from "./es";
-import it from "./it";
-import tr from "./tr";
 import jp from "./jp";
-import de from "./de";
-import vi from "./vi";
-import ru from "./ru";
-import no from "./no";
-import cs from "./cs";
-import ko from "./ko";
-import ar from "./ar";
-import bn from "./bn";
 import { merge } from "../utils/merge";
 
 import type { LocaleType } from "./cn";
@@ -25,19 +12,19 @@ const ALL_LANGS = {
   en,
   tw,
   jp,
-  ko,
-  id,
-  fr,
-  es,
-  it,
-  tr,
-  de,
-  vi,
-  ru,
-  cs,
-  no,
-  ar,
-  bn,
+  // ko,
+  // id,
+  // fr,
+  // es,
+  // it,
+  // tr,
+  // de,
+  // vi,
+  // ru,
+  // cs,
+  // no,
+  // ar,
+  // bn,
 };
 
 export type Lang = keyof typeof ALL_LANGS;
@@ -49,19 +36,19 @@ export const ALL_LANG_OPTIONS: Record<Lang, string> = {
   en: "English",
   tw: "繁體中文",
   jp: "日本語",
-  ko: "한국어",
-  id: "Indonesia",
-  fr: "Français",
-  es: "Español",
-  it: "Italiano",
-  tr: "Türkçe",
-  de: "Deutsch",
-  vi: "Tiếng Việt",
-  ru: "Русский",
-  cs: "Čeština",
-  no: "Nynorsk",
-  ar: "العربية",
-  bn: "বাংলা",
+  // ko: "한국어",
+  // id: "Indonesia",
+  // fr: "Français",
+  // es: "Español",
+  // it: "Italiano",
+  // tr: "Türkçe",
+  // de: "Deutsch",
+  // vi: "Tiếng Việt",
+  // ru: "Русский",
+  // cs: "Čeština",
+  // no: "Nynorsk",
+  // ar: "العربية",
+  // bn: "বাংলা",
 };
 
 const LANG_KEY = "lang";

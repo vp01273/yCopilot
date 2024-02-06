@@ -59,8 +59,8 @@ export const DEFAULT_CONFIG = {
     compressMessageLengthThreshold: 1000,
     enableInjectSystemPrompts: true,
     template: DEFAULT_INPUT_TEMPLATE,
-    confidence: 0.25,
-    filter: "",
+    confidence: 0.25,  // 相关文档置信度
+    filter: [] as string[],  // tag过滤
   },
 };
 
@@ -74,7 +74,7 @@ export function limitNumber(
   max: number,
   defaultValue: number,
 ) {
-  if (typeof x !== "number" || isNaN(x)) {
+  if (isNaN(x)) {
     return defaultValue;
   }
 
@@ -143,7 +143,7 @@ export const useAppConfig = createPersistStore(
       return get().models.concat(customModels);
     },
     allFilters() {
-      return get().models;
+      return get().filters;
     },
   }),
   {

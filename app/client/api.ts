@@ -27,8 +27,8 @@ export interface ChatOptions {
   messages: RequestMessage[];
   config: LLMConfig;
 
-  onUpdate?: (message: string, chunk: string) => void;
-  onFinish: (message: string, quotes: Quote[], session_id: number) => void;
+  onUpdate?: (message: string, chunk: string, quotes: Quote[], session_id: string) => void;
+  onFinish: (message: string, quotes: Quote[], session_id: string) => void;
   onError?: (err: Error) => void;
   onController?: (controller: AbortController) => void;
 }
@@ -82,11 +82,11 @@ export class ClientApi {
     this.llm = new ChatGPTApi();
   }
 
-  config() {}
+  config() { }
 
-  prompts() {}
+  prompts() { }
 
-  masks() {}
+  masks() { }
 
   async share(messages: ChatMessage[], avatarUrl: string | null = null) {
     const msgs = messages
@@ -135,6 +135,7 @@ export function getHeaders() {
   let headers: Record<string, string> = {
     "Content-Type": "application/json",
     "x-requested-with": "XMLHttpRequest",
+    "accessToken": "ymslx-ic-web"
   };
 
   const makeBearer = (token: string) => `Bearer ${token.trim()}`;

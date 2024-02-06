@@ -494,12 +494,11 @@ export function ChatActions(props: {
         onClick={() => {
           chatStore.updateCurrentSession((session) => {
             if (session.clearContextIndex === session.messages.length) {
-              session.clearContextIndex = undefined;
-              session.YCopilot_session_id = session.YCopilot_session_id_bak;
+              // session.clearContextIndex = undefined;
+              // session.YCopilot_session_id = session.YCopilot_session_id_bak;
             } else {
               session.clearContextIndex = session.messages.length;
               session.memoryPrompt = ""; // will clear memory
-              session.YCopilot_session_id_bak = session.YCopilot_session_id;
               session.YCopilot_session_id = undefined;
             }
           });
@@ -879,27 +878,27 @@ function _Chat() {
       .concat(
         isLoading
           ? [
-              {
-                ...createMessage({
-                  role: "assistant",
-                  content: "……",
-                }),
-                preview: true,
-              },
-            ]
+            {
+              ...createMessage({
+                role: "assistant",
+                content: "……",
+              }),
+              preview: true,
+            },
+          ]
           : [],
       )
       .concat(
         userInput.length > 0 && config.sendPreviewBubble
           ? [
-              {
-                ...createMessage({
-                  role: "user",
-                  content: userInput,
-                }),
-                preview: true,
-              },
-            ]
+            {
+              ...createMessage({
+                role: "user",
+                content: userInput,
+              }),
+              preview: true,
+            },
+          ]
           : [],
       );
   }, [
@@ -993,7 +992,7 @@ function _Chat() {
         if (payload.key || payload.url) {
           showConfirm(
             Locale.URLCommand.Settings +
-              `\n${JSON.stringify(payload, null, 4)}`,
+            `\n${JSON.stringify(payload, null, 4)}`,
           ).then((res) => {
             if (!res) return;
             if (payload.key) {
@@ -1174,11 +1173,11 @@ function _Chat() {
                             />
                           ) : (
                             <>
-                              <ChatAction
+                              {/* <ChatAction
                                 text={Locale.Chat.Actions.Retry}
                                 icon={<ResetIcon />}
                                 onClick={() => onResend(message)}
-                              />
+                              /> */}
 
                               <ChatAction
                                 text={Locale.Chat.Actions.Delete}
@@ -1198,7 +1197,7 @@ function _Chat() {
                               />
                               <ChatAction
                                 text={
-                                  message.quotes?.length +
+                                  (message.quotes?.length || "无") +
                                   Locale.Chat.Actions.Quote
                                 }
                                 icon={<BrainIcon />}
