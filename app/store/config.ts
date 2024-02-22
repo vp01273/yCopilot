@@ -46,7 +46,7 @@ export const DEFAULT_CONFIG = {
   models: DEFAULT_MODELS as any as LLMModel[],
 
   modelConfig: {
-    model: "gpt-3.5-turbo" as ModelType,
+    model: "Qwen-72B-Chat-Int4" as ModelType,
     temperature: 0.5,
     top_p: 1,
     max_tokens: 2000,
@@ -59,7 +59,8 @@ export const DEFAULT_CONFIG = {
     template: DEFAULT_INPUT_TEMPLATE,
     confidence: 0.25, // 相关文档置信度
     filter: [] as string[], // tag过滤
-    stream: false, // 是否开启stream模式
+    stream: true, // 是否开启stream模式
+    basicChat: false, // 是否仅使用基础聊天
   },
 };
 

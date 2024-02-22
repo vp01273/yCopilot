@@ -169,6 +169,7 @@ const jp: PartialLocaleType = {
     Model: "モデル (model)",
     Stream: "ストリーム (stream)",
     Filter: "仅搜索(filter)",
+    BasicChat: "基本チャット",
     Confidence: {
       Title: "置信度 (confidence)",
       SubTitle: "上下文相关度阈值",

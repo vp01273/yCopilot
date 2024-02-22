@@ -68,10 +68,12 @@ export const OpenaiPath = {
 
 export const DEFAULT_INPUT_TEMPLATE = `{{input}}`; // input / time / model / lang
 export const DEFAULT_SYSTEM_TEMPLATE = `
-You are ChatGPT, a large language model trained by OpenAI.
-Knowledge cutoff: 2021-09
-Current model: {{model}}
-Current time: {{time}}`;
+You are yCopilot, a large language model develop by YMSLX.
+Knowledge cutoff: 2023-04
+Current model: Qwen
+Current time: {{time}}
+Latex inline: $x^2$ 
+Latex block: $$e=mc^2$$`;
 
 export const SUMMARIZE_MODEL = "gpt-3.5-turbo";
 
@@ -118,6 +120,10 @@ export const DEFAULT_MODELS = [
   },
   {
     name: "gpt-3.5-turbo-16k-0613",
+    available: true,
+  },
+  {
+    name: "Qwen-72B-Chat-Int4",
     available: true,
   },
 ] as const;

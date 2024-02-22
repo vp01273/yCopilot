@@ -203,8 +203,7 @@ const en: LocaleType = {
         },
         ProxyUrl: {
           Title: "Proxy Endpoint",
-          SubTitle:
-            "Only applicable to the built-in CORS proxy for this project",
+          SubTitle: "Only applicable to the built-in CORS proxy for this project",
         },
 
         WebDav: {
@@ -242,8 +241,7 @@ const en: LocaleType = {
         SubTitle: "Input / to trigger auto-completion",
       },
       List: "Prompt List",
-      ListCount: (builtin: number, custom: number) =>
-        `${builtin} built-in, ${custom} user-defined`,
+      ListCount: (builtin: number, custom: number) => `${builtin} built-in, ${custom} user-defined`,
       Edit: "Edit",
       Modal: {
         Title: "Prompt List",
@@ -260,8 +258,7 @@ const en: LocaleType = {
     },
     CompressThreshold: {
       Title: "History Compression Threshold",
-      SubTitle:
-        "Will compress if uncompressed messages length exceeds the value",
+      SubTitle: "Will compress if uncompressed messages length exceeds the value",
     },
     Token: {
       Title: "API Key",
@@ -295,8 +292,7 @@ const en: LocaleType = {
     Filter: "filters",
     Confidence: {
       Title: "Confidence",
-      SubTitle:
-        "the confidence of context used by the model when generating text",
+      SubTitle: "the confidence of context used by the model when generating text",
     },
     Temperature: {
       Title: "Temperature",
@@ -312,14 +308,13 @@ const en: LocaleType = {
     },
     PresencePenalty: {
       Title: "Presence Penalty",
-      SubTitle:
-        "A larger value increases the likelihood to talk about new topics",
+      SubTitle: "A larger value increases the likelihood to talk about new topics",
     },
     FrequencyPenalty: {
       Title: "Frequency Penalty",
-      SubTitle:
-        "A larger value decreasing the likelihood to repeat the same line",
+      SubTitle: "A larger value decreasing the likelihood to repeat the same line",
     },
+    BasicChat: "Just use basic chat",
   },
   Store: {
     DefaultTopic: "New Conversation",

@@ -290,6 +290,7 @@ const cn = {
     Model: "模型 (model)",
     Filter: "标签过滤(filter)",
     Stream: "流式回复",
+    BasicChat: "基础聊天",
     Confidence: {
       Title: "置信度 (confidence)",
       SubTitle: "上下文相关度阈值",
@@ -425,8 +426,8 @@ const cn = {
 
 type DeepPartial<T> = T extends object
   ? {
-      [P in keyof T]?: DeepPartial<T[P]>;
-    }
+    [P in keyof T]?: DeepPartial<T[P]>;
+  }
   : T;
 
 export type LocaleType = typeof cn;

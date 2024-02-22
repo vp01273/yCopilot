@@ -19,9 +19,9 @@ export function ModelConfigList(props: {
           onChange={(e) => {
             props.updateConfig(
               (config) =>
-                (config.model = ModalConfigValidator.model(
-                  e.currentTarget.value,
-                )),
+              (config.model = ModalConfigValidator.model(
+                e.currentTarget.value,
+              )),
             );
           }}
         >
@@ -43,7 +43,36 @@ export function ModelConfigList(props: {
           }
         ></input>
       </ListItem>
-      <ListItem title={Locale.Settings.Filter}>
+      <ListItem title={Locale.Settings.BasicChat}>
+        <input
+          type="checkbox"
+          checked={props.modelConfig.basicChat}
+          onChange={(e) =>
+            props.updateConfig(
+              (config) => (config.basicChat = e.currentTarget.checked),
+            )
+          }
+        ></input>
+      </ListItem>
+
+      {props.modelConfig.basicChat && <ListItem
+        title={Locale.Settings.InjectSystemPrompts.Title}
+        subTitle={Locale.Settings.InjectSystemPrompts.SubTitle}
+      >
+        <input
+          type="checkbox"
+          checked={props.modelConfig.enableInjectSystemPrompts}
+          onChange={(e) =>
+            props.updateConfig(
+              (config) =>
+              (config.enableInjectSystemPrompts =
+                e.currentTarget.checked),
+            )
+          }
+        ></input>
+      </ListItem>}
+
+      {!props.modelConfig.basicChat && <ListItem title={Locale.Settings.Filter}>
         <input
           type="text"
           value={props.modelConfig.filter.join(",")}
@@ -54,8 +83,9 @@ export function ModelConfigList(props: {
             )
           }
         ></input>
-      </ListItem>
-      <ListItem
+      </ListItem>}
+
+      {!props.modelConfig.basicChat && <ListItem
         title={Locale.Settings.Confidence.Title}
         subTitle={Locale.Settings.Confidence.SubTitle}
       >
@@ -67,14 +97,15 @@ export function ModelConfigList(props: {
           onChange={(e) => {
             props.updateConfig(
               (config) =>
-                (config.confidence = ModalConfigValidator.confidence(
-                  e.currentTarget.valueAsNumber,
-                )),
+              (config.confidence = ModalConfigValidator.confidence(
+                e.currentTarget.valueAsNumber,
+              )),
             );
           }}
         ></InputRange>
-      </ListItem>
-      <ListItem
+      </ListItem>}
+
+      {props.modelConfig.basicChat && <ListItem
         title={Locale.Settings.HistoryCount.Title}
         subTitle={Locale.Settings.HistoryCount.SubTitle}
       >
@@ -90,9 +121,9 @@ export function ModelConfigList(props: {
             )
           }
         ></InputRange>
-      </ListItem>
+      </ListItem>}
 
-      <ListItem
+      {props.modelConfig.basicChat && <ListItem
         title={Locale.Settings.Temperature.Title}
         subTitle={Locale.Settings.Temperature.SubTitle}
       >
@@ -104,13 +135,14 @@ export function ModelConfigList(props: {
           onChange={(e) => {
             props.updateConfig(
               (config) =>
-                (config.temperature = ModalConfigValidator.temperature(
-                  e.currentTarget.valueAsNumber,
-                )),
+              (config.temperature = ModalConfigValidator.temperature(
+                e.currentTarget.valueAsNumber,
+              )),
             );
           }}
         ></InputRange>
       </ListItem>
+      }
 
       <ListItem
         title={Locale.Settings.MaxTokens.Title}
@@ -124,9 +156,9 @@ export function ModelConfigList(props: {
           onChange={(e) =>
             props.updateConfig(
               (config) =>
-                (config.max_tokens = ModalConfigValidator.max_tokens(
-                  e.currentTarget.valueAsNumber,
-                )),
+              (config.max_tokens = ModalConfigValidator.max_tokens(
+                e.currentTarget.valueAsNumber,
+              )),
             )
           }
         ></input>
