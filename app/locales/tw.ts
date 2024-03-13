@@ -140,6 +140,10 @@ const tw: PartialLocaleType = {
             Placeholder: "請輸入授權碼",
         },
         Model: "模型 (model)",
+        ContextImprove: {
+            Title: "ContextImrove",
+            SubTitle: "上下文关联性改进(试验性)",
+        },
         Temperature: {
             Title: "隨機性 (temperature)",
             SubTitle: "值越大，回應越隨機",

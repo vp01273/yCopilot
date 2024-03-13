@@ -170,6 +170,10 @@ const jp: PartialLocaleType = {
     Stream: "ストリーム (stream)",
     Filter: "仅搜索(filter)",
     BasicChat: "基本チャット",
+    ContextImprove: {
+      Title: "ContextImrove",
+      SubTitle: "文脈関連性の改善（実験的）",
+    },
     Confidence: {
       Title: "置信度 (confidence)",
       SubTitle: "上下文相关度阈值",

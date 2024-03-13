@@ -291,6 +291,10 @@ const cn = {
     Filter: "标签过滤(filter)",
     Stream: "流式回复",
     BasicChat: "基础聊天",
+    ContextImprove: {
+      Title: "关联性改进",
+      SubTitle: "改进多轮对话中用户输入的关联性，试验性功能",
+    },
     Confidence: {
       Title: "置信度 (confidence)",
       SubTitle: "上下文相关度阈值",

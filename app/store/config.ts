@@ -61,6 +61,7 @@ export const DEFAULT_CONFIG = {
     filter: [] as string[], // tag过滤
     stream: true, // 是否开启stream模式
     basicChat: false, // 是否仅使用基础聊天
+    relevance: false
   },
 };
 

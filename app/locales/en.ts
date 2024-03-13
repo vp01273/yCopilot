@@ -290,6 +290,10 @@ const en: LocaleType = {
     Model: "Model",
     Stream: "Stream",
     Filter: "filters",
+    ContextImprove: {
+      Title: "ContextImrove",
+      SubTitle: "Contextual relevance improvement (experimental)",
+    },
     Confidence: {
       Title: "Confidence",
       SubTitle: "the confidence of context used by the model when generating text",

@@ -72,6 +72,25 @@ export function ModelConfigList(props: {
         ></input>
       </ListItem>}
 
+
+      {!props.modelConfig.basicChat && <ListItem
+        title={Locale.Settings.ContextImprove.Title}
+        subTitle={Locale.Settings.ContextImprove.SubTitle}
+      >
+        <input
+          type="checkbox"
+          checked={props.modelConfig.relevance}
+          onChange={(e) =>
+            props.updateConfig(
+              (config) =>
+              (config.relevance =
+                e.currentTarget.checked),
+            )
+          }
+        ></input>
+      </ListItem>}
+
+
       {!props.modelConfig.basicChat && <ListItem title={Locale.Settings.Filter}>
         <input
           type="text"

@@ -246,6 +246,7 @@ export class ChatGPTApi implements LLMApi {
       sessionId:
         useChatStore.getState().currentSession().YCopilot_session_id ?? "",
       filters: filter,
+      relevance: modelConfig.relevance
       // max_tokens: modelConfig.max_tokens,
     };
     let quotes = [] as Quote[];
